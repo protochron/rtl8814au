@@ -1291,7 +1291,7 @@ u32 _rtw_down_sema(_sema *sema)
 inline void thread_exit(_completion *comp)
 {
 #ifdef PLATFORM_LINUX
-	complete_and_exit(comp, 0);
+	kthread_complete_and_exit(comp, 0);
 #endif
 
 #ifdef PLATFORM_FREEBSD
@@ -2396,7 +2396,7 @@ int rtw_readable_file_sz_chk(const char *path, u32 sz)
 
 	if (fsz > sz)
 		return _FALSE;
-	
+
 	return _TRUE;
 }
 
@@ -2877,7 +2877,7 @@ int map_readN(const struct map_t *map, u16 offset, u16 len, u8 *buf)
 			else
 				c_len = seg->sa + seg->len - offset;
 		}
-			
+
 		_rtw_memcpy(c_dst, c_src, c_len);
 	}
 
@@ -3058,7 +3058,7 @@ void dump_blacklist(void *sel, _queue *blist, const char *title)
 	if (rtw_end_of_queue_search(head, list) == _FALSE) {
 		if (title)
 			RTW_PRINT_SEL(sel, "%s:\n", title);
-	
+
 		while (rtw_end_of_queue_search(head, list) == _FALSE) {
 			ent = LIST_CONTAINOR(list, struct blacklist_ent, list);
 			list = get_next(list);
